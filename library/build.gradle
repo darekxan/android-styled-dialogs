@@ -3,10 +3,12 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
+        classpath 'com.android.tools.build:gradle:0.11.+'
     }
 }
 apply plugin: 'android-library'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 repositories {
     mavenCentral()
@@ -14,13 +16,13 @@ repositories {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.0"
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
         minSdkVersion 7
         targetSdkVersion 19
-        versionName project.VERSION_NAME
-        versionCode Integer.parseInt(project.VERSION_CODE)
+        versionName POM_VERSION_NAME
+        versionCode Integer.parseInt(POM_VERSION_CODE)
     }
 }
 
@@ -28,5 +30,56 @@ dependencies {
     compile 'com.android.support:support-v4:+'
 }
 
-// Used to push in maven
-apply from: '../maven_push.gradle'
+
+
+configurations {
+    archives {
+        extendsFrom configurations.default
+    }
+}
+
+signing {
+    required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        repository(url: MVN_REPO) {
+            authentication(userName: MVN_USERNAME,
+                    password: MVN_PASSWORD)
+        }
+
+        pom.project {
+            name POM_NAME
+            packaging POM_PACKAGING
+            description POM_DESCRIPTION
+            url POM_URL
+
+            scm {
+                url POM_SCM_URL
+                connection POM_SCM_CONNECTION
+                developerConnection POM_SCM_DEV_CONNECTION
+            }
+
+            licenses {
+                license {
+                    name POM_LICENCE_NAME
+                    url POM_LICENCE_URL
+                    distribution POM_LICENCE_DIST
+                }
+            }
+
+            developers {
+                developer {
+                    id POM_DEVELOPER_ID
+                    name POM_DEVELOPER_NAME
+                    email POM_DEVELOPER_EMAIL
+                }
+            }
+        }
+    }
+}
