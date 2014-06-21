@@ -8,8 +8,11 @@
 	<View
 		android:id="@+id/sdl__titleDivider"
 		style="@style/SDL.TitleSeparator"/>
-
+    <ScrollView
+        android:id="@+id/sdl__contentPanel"
+        style="@style/SDL.Group.Wrap">
 	<LinearLayout
 		android:id="@+id/sdl__content"
 		style="@style/SDL.Group"/>
+    </ScrollView>
 </LinearLayout>
