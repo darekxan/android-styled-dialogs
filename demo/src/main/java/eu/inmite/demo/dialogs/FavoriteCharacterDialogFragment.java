@@ -60,10 +60,7 @@ public class FavoriteCharacterDialogFragment extends BaseDialogFragment {
 	public Builder build(Builder builder) {
 		builder.setTitle(getTitle());
 		builder.setIcon(R.drawable.jayne_icon);
-		ListAdapter adapter = new ArrayAdapter<String>(getActivity(), R.layout.item_list,
-				R.id.list_item_text,
-				getItems());
-		builder.setItems(adapter, 0, new AdapterView.OnItemClickListener() {
+		builder.setItems(getItems(), -1, new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (mListener != null) {
