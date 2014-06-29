@@ -48,13 +48,17 @@ uploadArchives {
     repositories.mavenDeployer {
         beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-        repository(url: MVN_REPO) {
-            authentication(userName: MVN_USERNAME,
-                    password: MVN_PASSWORD)
+        repository(url: MVN_RELEASE) {
+            authentication(userName: MVN_USERNAME, password: MVN_PASSWORD)
+        }
+
+        snapshotRepository(url: MVN_SNAPSHOT) {
+            authentication(userName: MVN_USERNAME, password: MVN_PASSWORD)
         }
 
         pom.project {
             name POM_NAME
+            artifactId POM_ARTIFACT_ID
             packaging POM_PACKAGING
             description POM_DESCRIPTION
             url POM_URL
@@ -63,6 +67,7 @@ uploadArchives {
                 url POM_SCM_URL
                 connection POM_SCM_CONNECTION
                 developerConnection POM_SCM_DEV_CONNECTION
+                tag POM_SCM_TAG
             }
 
             licenses {
