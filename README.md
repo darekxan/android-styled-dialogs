@@ -1,6 +1,8 @@
 # StyledDialogs for Android
 
 This library makes styling and using dialogs _a piece of cake_.
+## NOTE
+**This is just a fork for fixing some issues with original project. It is properly published to mavencentral, so you can reference it in your projects.**
 
  ![Screenshot of the dialogs](graphics/screenshot-small.png)
 
