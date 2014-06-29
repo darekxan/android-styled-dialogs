@@ -1,6 +1,8 @@
 # StyledDialogs for Android
 
 This library makes styling and using dialogs _a piece of cake_.
+## NOTE
+**This is just a fork for fixing some issues with original project. It is properly published to mavencentral, so you can reference it in your projects.**
 
  ![Screenshot of the dialogs](graphics/screenshot-small.png)
 
@@ -16,16 +18,16 @@ Features:
 
 With Gradle:
 ```groovy
-compile 'eu.inmite.android.lib:android-styled-dialogs:1.1.2@aar'
+compile 'com.github.darekxan:android-styled-dialogs:1.1.3@aar'
 ```    
 
 With Maven:
 ```xml
 <dependency>
-	<groupId>eu.inmite.android.lib</groupId>
+	<groupId>com.github.darekxan</groupId>
 	<artifactId>android-styled-dialogs</artifactId>
-	<version>1.1.2</version>
-	<type>apklib</type>
+	<version>1.1.3-darekxan</version>
+	<type>aar</type>
 </dependency>
 ```
 
