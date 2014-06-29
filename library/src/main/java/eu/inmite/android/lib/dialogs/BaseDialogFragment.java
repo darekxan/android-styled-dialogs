@@ -36,6 +36,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 /**
@@ -286,37 +287,40 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
 			View v = getDialogLayoutAndInitTitle();
 
-			LinearLayout content = (LinearLayout) v.findViewById(R.id.sdl__content);
+			LinearLayout insideScroll = (LinearLayout) v.findViewById(R.id.sdl__content);
+            LinearLayout outsideScroll = (LinearLayout) v.findViewById(R.id.sdl__content_wrapper);
+            ScrollView scrollView = (ScrollView) v.findViewById(R.id.sdl__contentPanel);
 
-			if (mMessage != null) {
-				View viewMessage = mInflater.inflate(R.layout.dialog_part_message, content, false);
+            if (mMessage != null) {
+				View viewMessage = mInflater.inflate(R.layout.dialog_part_message, insideScroll, false);
 				TextView tvMessage = (TextView) viewMessage.findViewById(R.id.sdl__message);
 				tvMessage.setTextColor(mMessageTextColor);
 				tvMessage.setText(mMessage);
-				content.addView(viewMessage);
+				insideScroll.addView(viewMessage);
 			}
 
 			if (mView != null) {
-				FrameLayout customPanel = (FrameLayout) mInflater.inflate(R.layout.dialog_part_custom, content, false);
+				FrameLayout customPanel = (FrameLayout) mInflater.inflate(R.layout.dialog_part_custom, insideScroll, false);
 				FrameLayout custom = (FrameLayout) customPanel.findViewById(R.id.sdl__custom);
 				custom.addView(mView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 				if (mViewSpacingSpecified) {
 					custom.setPadding(mViewSpacingLeft, mViewSpacingTop, mViewSpacingRight, mViewSpacingBottom);
 				}
-				content.addView(customPanel);
+				insideScroll.addView(customPanel);
 			}
 
 			if (mListAdapter != null) {
-				ListView list = (ListView) mInflater.inflate(R.layout.dialog_part_list, content, false);
+				ListView list = (ListView) mInflater.inflate(R.layout.dialog_part_list, insideScroll, false);
 				list.setAdapter(mListAdapter);
 				list.setOnItemClickListener(mOnItemClickListener);
 				if (mListCheckedItemIdx != -1) {
 					list.setSelection(mListCheckedItemIdx);
 				}
-				content.addView(list);
+                outsideScroll.addView(list);
+                scrollView.setVisibility(View.GONE);
 			}
 
-			addButtons(content);
+			addButtons(outsideScroll);
 
 			return v;
 		}
