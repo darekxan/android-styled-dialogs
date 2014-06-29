@@ -12,6 +12,7 @@
 		<attr name="titleTextColor" format="color|reference" />
 		<attr name="titleSeparatorColor" format="color|reference" />
 		<attr name="messageTextColor" format="color|reference" />
+        <attr name="listViewItemTextColor" format="color|reference" />
 		<attr name="buttonTextColor" format="color|reference" />
 		<attr name="buttonSeparatorColor" format="color|reference" />
 		<attr name="buttonBackgroundColorNormal" format="color|reference" />

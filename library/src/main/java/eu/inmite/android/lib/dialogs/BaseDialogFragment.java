@@ -31,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -145,6 +146,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
 		private int mTitleTextColor;
 		private int mTitleSeparatorColor;
 		private int mMessageTextColor;
+        private int mListViewTextColor;
 		private ColorStateList mButtonTextColor;
 		private int mButtonSeparatorColor;
 		private int mButtonBackgroundColorNormal;
@@ -218,16 +220,40 @@ public abstract class BaseDialogFragment extends DialogFragment {
 			return this;
 		}
 
+        /**
+         * Set list with custom item layout
+         *
+         * @param listAdapter
+         * @param checkedItemIdx Item check by default, -1 if no item should be checked
+         * @param listener
+         * @return
+         */
+        public Builder setItems(ListAdapter listAdapter, int checkedItemIdx, final AdapterView.OnItemClickListener listener) {
+            mListAdapter = listAdapter;
+            mOnItemClickListener = listener;
+            mListCheckedItemIdx = checkedItemIdx;
+            return this;
+        }
+
 		/**
-		 * Set list
-		 *
-		 * @param listAdapter
+		 * Set list with default item layout
+		 * @param items items to display in list
 		 * @param checkedItemIdx Item check by default, -1 if no item should be checked
 		 * @param listener
 		 * @return
 		 */
-		public Builder setItems(ListAdapter listAdapter, int checkedItemIdx, final AdapterView.OnItemClickListener listener) {
-			mListAdapter = listAdapter;
+		public Builder setItems(String[] items, int checkedItemIdx, final AdapterView.OnItemClickListener listener) {
+			mListAdapter = new ArrayAdapter<String>(mContext, R.layout.dialog_part_list_default_item,
+                    android.R.id.text1, items){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View layout = super.getView(position, convertView, parent);
+                    layout.setBackgroundDrawable(getButtonBackground());
+                    TextView textView = (TextView) layout.findViewById(android.R.id.text1);
+                    textView.setTextColor(mListViewTextColor);
+                    return layout;
+                };
+            };
 			mOnItemClickListener = listener;
 			mListCheckedItemIdx = checkedItemIdx;
 			return this;
@@ -270,11 +296,13 @@ public abstract class BaseDialogFragment extends DialogFragment {
 			final int defaultButtonBackgroundColorNormal = res.getColor(R.color.sdl_button_normal_dark);
 			final int defaultButtonBackgroundColorPressed = res.getColor(R.color.sdl_button_pressed_dark);
 			final int defaultButtonBackgroundColorFocused = res.getColor(R.color.sdl_button_focused_dark);
+            final int defaultTextColorAlertDialogListItem = res.getColor(R.color.sdl_list_text_dark);
 
 			final TypedArray a = mContext.getTheme().obtainStyledAttributes(null, R.styleable.DialogStyle, R.attr.sdlDialogStyle, 0);
 			mTitleTextColor = a.getColor(R.styleable.DialogStyle_titleTextColor, defaultTitleTextColor);
 			mTitleSeparatorColor = a.getColor(R.styleable.DialogStyle_titleSeparatorColor, defaultTitleSeparatorColor);
 			mMessageTextColor = a.getColor(R.styleable.DialogStyle_messageTextColor, defaultMessageTextColor);
+            mListViewTextColor = a.getColor(R.styleable.DialogStyle_listViewItemTextColor, defaultTextColorAlertDialogListItem);
 			mButtonTextColor = a.getColorStateList(R.styleable.DialogStyle_buttonTextColor);
 			if (mButtonTextColor == null) {
 				mButtonTextColor = defaultButtonTextColor;
@@ -312,7 +340,10 @@ public abstract class BaseDialogFragment extends DialogFragment {
 			if (mListAdapter != null) {
 				ListView list = (ListView) mInflater.inflate(R.layout.dialog_part_list, insideScroll, false);
 				list.setAdapter(mListAdapter);
-				list.setOnItemClickListener(mOnItemClickListener);
+                ColorDrawable colorDrawable = new ColorDrawable(mButtonSeparatorColor);
+                list.setDivider(colorDrawable);
+                list.setDividerHeight(1);
+                list.setOnItemClickListener(mOnItemClickListener);
 				if (mListCheckedItemIdx != -1) {
 					list.setSelection(mListCheckedItemIdx);
 				}

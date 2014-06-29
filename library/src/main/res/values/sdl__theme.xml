@@ -15,7 +15,7 @@
 		<item name="android:windowCloseOnTouchOutside">true</item>
 		<item name="android:backgroundDimAmount">0.6</item>
 		<item name="android:colorBackgroundCacheHint">@null</item>
-
+        <item name="android:listViewStyle">@null</item>
         <item name="sdlTitleTextStyle">@style/SDL.TextView.Title</item>
         <item name="sdlMessageTextStyle">@style/SDL.TextView.Message</item>
 
@@ -27,6 +27,7 @@
 		<item name="titleTextColor">@color/sdl_title_text_dark</item>
 		<item name="titleSeparatorColor">@color/sdl_title_separator_dark</item>
 		<item name="messageTextColor">@color/sdl_message_text_dark</item>
+        <item name="listViewItemTextColor">@color/sdl_list_text_dark</item>
 		<item name="buttonTextColor">@color/sdl_button_text_dark</item>
 		<item name="buttonSeparatorColor">@color/sdl_button_separator_dark</item>
 		<item name="buttonBackgroundColorNormal">@color/sdl_button_normal_dark</item>
@@ -39,6 +40,7 @@
 		<item name="titleTextColor">@color/sdl_title_text_light</item>
 		<item name="titleSeparatorColor">@color/sdl_title_separator_light</item>
 		<item name="messageTextColor">@color/sdl_message_text_light</item>
+        <item name="listViewItemTextColor">@color/sdl_list_text_light</item>
 		<item name="buttonTextColor">@color/sdl_button_text_light</item>
 		<item name="buttonSeparatorColor">@color/sdl_button_separator_light</item>
 		<item name="buttonBackgroundColorNormal">@color/sdl_button_normal_light</item>
@@ -118,7 +120,7 @@
 		<item name="android:layout_height">match_parent</item>
 		<item name="android:layout_weight">1</item>
 		<item name="android:cacheColorHint">@null</item>
-		<item name="android:background">@android:color/transparent</item>
+        <item name="android:listSelector">@android:color/transparent</item>
 	</style>
 
 	<style name="SDL.TextView" parent="@android:style/Widget.TextView">
