@@ -49,11 +49,11 @@ uploadArchives {
         beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
         repository(url: MVN_RELEASE) {
-            authentication(userName: MVN_USERNAME, password: MVN_PASSWORD)
+            authentication(userName: mvn_username, password: mvn_password)
         }
 
         snapshotRepository(url: MVN_SNAPSHOT) {
-            authentication(userName: MVN_USERNAME, password: MVN_PASSWORD)
+            authentication(userName: mvn_username, password: mvn_password)
         }
 
         pom.project {
